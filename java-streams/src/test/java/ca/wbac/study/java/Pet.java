@@ -1,8 +1,12 @@
 package ca.wbac.study.java;
 
 class Pet {
+    enum Type {
+        DOG, CAT, FISH, MOOSE
+    }
+
     private String name;
-    private PetType type;
+    private Type type;
     private Integer age;
 
     static Pet create(String name, Integer age) {
@@ -12,7 +16,7 @@ class Pet {
         return pet;
     }
 
-    static Pet create(String name, PetType type, Integer age) {
+    static Pet create(String name, Type type, Integer age) {
         Pet pet = Pet.create(name, age);
         pet.setType(type);
         return pet;
@@ -26,11 +30,11 @@ class Pet {
         this.name = name;
     }
 
-    PetType getType() {
+    Type getType() {
         return type;
     }
 
-    private void setType(PetType type) {
+    private void setType(Type type) {
         this.type = type;
     }
 
