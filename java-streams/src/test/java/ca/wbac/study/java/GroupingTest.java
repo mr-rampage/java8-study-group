@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,24 +59,20 @@ public class GroupingTest {
 
     @Test
     public void testSubMaxBy() {
-        Map<Pet.Type, Optional<Pet>> petTypeMaxAge = petStream.collect(
-                Collectors.groupingBy(
-                        Pet::getType,
-                        Collectors.maxBy(Comparator.comparingInt(Pet::getAge))
-                ));
+        Collector<Pet, ?, Optional<Pet>> maxPetAgeCollector = Collectors.maxBy(Comparator.comparingInt(Pet::getAge));
 
+        Map<Pet.Type, Optional<Pet>> petTypeMaxAge = petStream.collect(Collectors.groupingBy(Pet::getType, maxPetAgeCollector));
         assertThat(petTypeMaxAge.get(Pet.Type.DOG), is(0L));
     }
 
     @Test
     public void testSubMaxByUseful() {
-        Map<Pet.Type, Integer> petTypeMaxAge = petStream.collect(
-                Collectors.groupingBy(Pet::getType,
-                        Collectors.collectingAndThen(
-                                Collectors.maxBy(Comparator.comparingInt(Pet::getAge)),
-                                pet -> pet.isPresent() ? pet.get().getAge() : 0
-                        )));
+        Collector<Pet, ?, Integer> petAgeCollector = Collectors.collectingAndThen(
+                Collectors.maxBy(Comparator.comparingInt(Pet::getAge)),
+                pet -> pet.isPresent() ? pet.get().getAge() : 0
+        );
 
+        Map<Pet.Type, Integer> petTypeMaxAge = petStream.collect(Collectors.groupingBy(Pet::getType, petAgeCollector));
         assertThat(petTypeMaxAge.get(Pet.Type.DOG), is(0L));
     }
 }
