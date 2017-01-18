@@ -1,4 +1,4 @@
-package ca.wbac.study.java;
+package ca.wbac.study.java.collectors;
 
 import org.junit.Before;
 import org.junit.Test;
