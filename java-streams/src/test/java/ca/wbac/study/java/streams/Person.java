@@ -34,6 +34,10 @@ class Person {
         return Collections.unmodifiableList(this.consumed);
     }
 
+    boolean ate(String food) {
+        return this.consumed.contains(food);
+    }
+
     Person drink(String... beverages) {
         this.drank.addAll(Arrays.asList(beverages));
         return this;
@@ -41,6 +45,10 @@ class Person {
 
     List<String> drank() {
         return Collections.unmodifiableList(this.drank);
+    }
+
+    boolean drank(String beverage) {
+        return this.drank().contains(beverage);
     }
 
     Person sleep() {

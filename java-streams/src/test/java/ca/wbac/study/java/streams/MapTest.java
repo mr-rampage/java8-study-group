@@ -92,7 +92,7 @@ public class MapTest {
 
         List<String> foodList = teamLunchStream
                 .map(Person::ate)
-                // .flatMap(List::stream)
+                .flatMap(List::stream) //todo: remove me
                 .collect(Collectors.toList());
 
         assertThat(foodList.size(), is(6));
